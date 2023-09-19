@@ -1,5 +1,5 @@
 <template>
-  <div id="q-app">
+  <div id="q-app-login">
     <div class="q-pa-md" style="min-width: 400px">
       <q-form
         @submit="onSubmit"
@@ -56,8 +56,8 @@ function onReset() {
 }
 </script>
 
-<style>
-#q-app{
+<style scoped>
+#q-app-login{
   height: 100vh;
   display: flex;
   align-items: center;
