@@ -1,6 +1,6 @@
 <template>
   <div id="q-app-login">
-    <div class="q-pa-md" style="min-width: 400px">
+    <div class="q-pa-md">
       <q-form
         @submit="onSubmit"
         @reset="onReset"
@@ -62,5 +62,9 @@ function onReset() {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.q-pa-md {
+  max-width: 600px;
+  width: 100%;
 }
 </style>

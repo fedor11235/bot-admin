@@ -44,10 +44,10 @@
     <q-input
       filled
       v-model="numberPosts"
-      hint="Пожалуйста хоть что-то введите"
+      hint="Пожалуйста введите целое число"
       label="Необходимо постов"
       lazy-rules
-      :rules="[ val => val && val.length > 0 || 'Пожалуйста хоть что-то введите']"
+      :rules="[ val => val && val.length > 0 && Number.isInteger(Number(val))|| 'Пожалуйста введите целой блй число']"
     ></q-input>
 
     <q-input
@@ -95,6 +95,7 @@
 <script lang="ts" setup>
 /* eslint-disable */
 import { ref } from "vue";
+import { createRecommendation } from "@/api"
 
 const name = ref("")
 const priceStandart = ref("")
@@ -107,7 +108,19 @@ const deadline = ref("")
 const info = ref("")
 
 async function onSubmit() {
-  console.log("Создаём!")
+  createRecommendation({
+    username: name.value,
+    price_standart: priceStandart.value,
+    price_now: priceNow.value,
+    format: format.value,
+    number_posts: Number(numberPosts.value),
+    data_list: dataList.value,
+    requisites: requisites.value,
+    deadline: deadline.value,
+    info: info.value,
+  })
+  onReset()
+  alert("вы создали предложение!!!")
 }
 
 function onReset() {
@@ -121,16 +134,16 @@ function onReset() {
   deadline.value = ""
   info.value = ""
 }
-
 </script>
 
-<style>
+<style scoped>
 .form {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  min-width: 400px;
   max-width: 600px;
+  width: 100%;
   padding-bottom: 32px;
+  padding-left: 16px;
 }
 </style>
