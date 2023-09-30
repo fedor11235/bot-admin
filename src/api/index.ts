@@ -11,7 +11,7 @@
 
 
 const baseURL = process.env.NODE_ENV === "production"
-  ? "http://slonrobot.ru/api"
+  ? "http://slonrobot.ru/api/"
   : "http://localhost:3001/"
 
 // Создаём предложение
