@@ -5,20 +5,19 @@
         <q-btn flat label="Админка"></q-btn>
         <q-space></q-space>
 
-        <!--
-          notice shrink property since we are placing it
-          as child of QToolbar
-        -->
         <q-tabs v-model="menu" shrink>
-          <q-tab name="opt-create" label="Создать опт"></q-tab>
-          <q-tab name="opt-now" label="Текущие опты"></q-tab>
-          <q-tab name="info" label="Информация"></q-tab>
+          <q-tab name="recommendation-create" label="Создать Предложение"></q-tab>
+          <q-tab name="recommendation-now" label="Текущие Предложения"></q-tab>
+          <!-- <q-tab name="opt-now" label="Текущие Опты"></q-tab> -->
+          <q-tab name="channel-create" label="Добавить канал в каталог"></q-tab>
+          <!-- <q-tab name="info" label="Информация"></q-tab> -->
         </q-tabs>
       </q-toolbar>
     </div>
-    <OptCreated v-if="menu === 'opt-create'" />
-    <OptNow v-else-if="menu === 'opt-now'" />
-    <OptInfo v-else-if="menu === 'info'" />
+    <RecommendationCreated v-if="menu === 'recommendation-create'" />
+    <RecommendationNow v-else-if="menu === 'recommendation-now'" />
+    <!-- <OptNow v-else-if="menu === 'opt-now'" /> -->
+    <ChannelCreated v-else-if="menu === 'channel-create'" />
     <q-btn :onClick="onExit" unelevated class="exit" color="red" label="Выйти"></q-btn>
   </div>
 </template>
@@ -27,13 +26,15 @@
 /* eslint-disable */
 import { ref } from "vue"
 import { useRouter } from "vue-router";
-import OptCreated from "@/components/OptCreated.vue";
 import OptNow from "@/components/OptNow.vue";
+import RecommendationCreated from "@/components/RecommendationCreated.vue";
+import RecommendationNow from "@/components/RecommendationNow.vue";
+import ChannelCreated from "@/components/ChannelCreated.vue";
 import OptInfo from "@/components/OptInfo.vue";
 
 const router = useRouter()
 
-const menu = ref("opt-create")
+const menu = ref("recommendation-create")
 
 async function onExit() {
   window.localStorage.setItem("enter", "");

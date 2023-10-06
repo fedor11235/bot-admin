@@ -8,7 +8,7 @@
     <q-input
       filled
       v-model="name"
-      label="Название канала"
+      label="Юзернейм канала"
       hint="Пожалуйста хоть что-то введите"
       lazy-rules
       :rules="[ val => val && val.length > 0 || 'Пожалуйста хоть что-то введите']"
@@ -52,12 +52,23 @@
 
     <q-input
       filled
-      v-model="dataList"
-      hint="Пожалуйста хоть что-то введите"
-      label="Список дат"
+      v-model="coverage"
+      hint="Пожалуйста введите целое число"
+      label="Охват"
       lazy-rules
-      :rules="[ val => val && val.length > 0 || 'Пожалуйста хоть что-то введите']"
+      :rules="[ val => val && val.length > 0 && Number.isInteger(Number(val))|| 'Пожалуйста введите целой блй число']"
     ></q-input>
+
+    <q-input
+      filled
+      v-model="subscribers"
+      hint="Пожалуйста введите целое число"
+      label="Число подписот"
+      lazy-rules
+      :rules="[ val => val && val.length > 0 && Number.isInteger(Number(val))|| 'Пожалуйста введите целой блй число']"
+    ></q-input>
+
+    <DatePick v-model="dataList" />
 
     <q-input
       filled
@@ -96,6 +107,7 @@
 /* eslint-disable */
 import { ref } from "vue";
 import { createRecommendation } from "@/api"
+import DatePick from'@/components/DatePick.vue'
 
 const name = ref("")
 const priceStandart = ref("")
@@ -106,8 +118,13 @@ const dataList = ref("")
 const requisites = ref("")
 const deadline = ref("")
 const info = ref("")
+const subscribers = ref("")
+const coverage = ref("")
 
 async function onSubmit() {
+  if(!dataList.value) {
+    alert('Вы не ввели даты брони')
+  }
   createRecommendation({
     username: name.value,
     price_standart: priceStandart.value,
@@ -118,6 +135,8 @@ async function onSubmit() {
     requisites: requisites.value,
     deadline: deadline.value,
     info: info.value,
+    subscribers: subscribers.value,
+    coverage: coverage.value,
   })
   onReset()
   alert("вы создали предложение!!!")
