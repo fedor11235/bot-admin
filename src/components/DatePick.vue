@@ -1,10 +1,10 @@
 <template>
   <div class="btns" v-for="date in dateList" :key="date">
     <q-btn
-      @click="handlerSelectedDate(`${date}/${mapPeriod[period as mapPeriodIndexType]}`)"
+      @click="handlerSelectedDate(`${mapPeriod[period as mapPeriodIndexType]}/${date}`)"
       class="btn" v-for="period in timePeriod"
       :key="`${date}-${period}`" :label="`${date} (${period})`"
-      :color="colorBtn(`${date}/${mapPeriod[period as mapPeriodIndexType]}`)"
+      :color="colorBtn(`${mapPeriod[period as mapPeriodIndexType]}/${date}`)"
     />
   </div>
   <div  class="btns">
@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable */
 import { ref, computed } from "vue";
 
 defineProps<{

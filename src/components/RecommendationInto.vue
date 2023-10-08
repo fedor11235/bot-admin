@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable */
 import { ref, onMounted } from "vue";
 import { getRecommendationInto } from "@/api"
 
@@ -50,14 +49,3 @@ onMounted(async() => {
 })
 </script>
 
-<style scoped>
-.form {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 600px;
-  width: 100%;
-  padding-bottom: 32px;
-  padding-left: 16px;
-}
-</style>

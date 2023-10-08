@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable */
 import { useRouter } from "vue-router";
 const router = useRouter()
 

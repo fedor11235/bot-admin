@@ -1,9 +1,13 @@
 <template>
+  <q-btn @click="handlerDelete" label="Удалить выбранные предложения" :disable="selected.length === 0 ? true : false" color="green"></q-btn>
   <div class="q-pa-md">
     <q-table
       v-if="mode === 'recommendation-all'"
       flat bordered
       title="Предложения"
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
+      v-model:selected="selected"
       
       :rows="recommendations"
       :columns="(columns as any)"
@@ -11,6 +15,7 @@
     >
       <template v-slot:body="props">
         <q-tr :props="props" @click="handlerIntoRecommendation(props.row.username)">
+          <q-checkbox v-model="props.selected"></q-checkbox>
           <q-td v-for="(value, index) in props.row" :key="index" :props="props">
             {{ value }}
           </q-td>
@@ -18,18 +23,24 @@
       </template>
     </q-table>
     <RecommendationInto @return="mode = 'recommendation-all'" :username="usernameInto" v-else-if="mode === 'recommendation-into'" />
+    <div class="q-mt-md">
+      Выбранные Id предложений: {{ selectedId }}
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable */
-import { ref, onMounted } from "vue";
-import { getRecommendation } from "@/api"
+import { ref, computed, onMounted } from "vue";
+import { getRecommendation, deleteRecommendation } from "@/api"
 import RecommendationInto from '@/components/RecommendationInto.vue'
 
-const recommendations = ref()
+const recommendations = ref([])
 const mode = ref('recommendation-all')
 const usernameInto = ref('')
+const selected = ref([])
+const selectedId = computed(() => {
+  return selected.value.map((e: any) => e.id)
+})
 
 const columns = [
   {
@@ -53,12 +64,22 @@ const columns = [
   { name: 'info', align: 'left', label: 'Информация', field: 'info', sortable: true },
 ]
 
+function getSelectedString () {
+  return selected.value.length === 0 ? '' : `${selected.value.length} выбранных преддожений`
+}
+
+function handlerDelete () {
+  alert('Удалено!!!!!')
+  deleteRecommendation(selectedId.value)
+  recommendations.value = recommendations.value.filter((elem) => !selectedId.value.includes((elem as any).id))
+}
+
 async function handlerIntoRecommendation(username: any) {
   usernameInto.value = username
   mode.value = 'recommendation-into'
 }
 onMounted(async() => {
-  recommendations.value = await getRecommendation()
+  recommendations.value = (await getRecommendation() as any)
 })
 </script>
 

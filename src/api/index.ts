@@ -76,3 +76,15 @@ export function getRecommendationInto(channel: any) {
     request.send();
   });
 }
+
+// Удаляем поборки
+export function deleteRecommendation(payload: any) {
+  const formData = new FormData()
+  for(const index in payload) {
+    formData.append(index, payload[index]);
+  }
+  const url = baseURL + `recommendations/delete`
+  const request = new XMLHttpRequest();
+  request.open("Delete", url, false);
+  request.send(formData);
+}

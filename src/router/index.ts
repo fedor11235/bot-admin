@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import StartView from '../views/StartView.vue'
 import HomeView from '../views/HomeView.vue'
