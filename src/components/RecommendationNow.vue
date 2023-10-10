@@ -1,5 +1,5 @@
 <template>
-  <q-btn @click="handlerDelete" label="Удалить выбранные предложения" :disable="selected.length === 0 ? true : false" color="green"></q-btn>
+  <q-btn v-if="mode === 'recommendation-all'" @click="handlerDelete" label="Удалить выбранные предложения" :disable="selected.length === 0 ? true : false" color="green"></q-btn>
   <div class="q-pa-md">
     <q-table
       v-if="mode === 'recommendation-all'"
