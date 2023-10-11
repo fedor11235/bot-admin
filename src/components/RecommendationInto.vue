@@ -14,10 +14,17 @@
       :columns="(columns as any)"
       row-key="name"
     >
-      <template v-slot:body-cell-actions="props">
-        <q-td :props="props">
+      <template v-slot:body-cell-path_check="props">
+        <q-td class="actions" :props="props">
           <q-btn size="sm" rounded unelevated color="purple" @click="handlerOpenCheck(props)" label="Открыть чек"></q-btn>
-        </q-td>          
+          <!-- <q-btn size="sm" rounded unelevated color="purple" @click="handlerSendPosts(props)" label="Отправить посты в админку"></q-btn> -->
+        </q-td>       
+      </template>
+      <template v-slot:body-cell-creatives="props">
+        <q-td class="actions" :props="props">
+          <!-- <q-btn size="sm" rounded unelevated color="purple" @click="handlerOpenCheck(props)" label="Открыть чек"></q-btn> -->
+          <q-btn size="sm" rounded unelevated color="purple" @click="handlerSendPosts(props)" label="Отправить посты в админку"></q-btn>
+        </q-td>       
       </template>
     </q-table>
   </div>
@@ -33,6 +40,8 @@ const props = defineProps<{
   username: string;
 }>();
 
+const chatId = '-1001959790816'
+const botToken = '6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
 const recommendationsInto = ref()
 const checkImg = ref()
 const isPopupCheck = ref(false)
@@ -47,11 +56,52 @@ const columns = [
     sortable: true
   },
   { name: 'chanel', align: 'left', label: 'Юзернейм канала войденного в опт', field: 'chanel', sortable: true },
-  { name: 'creatives', align: 'left', label: 'Креативы', field: 'creatives', sortable: true },
+  // { name: 'creatives', align: 'left', label: 'Креативы', field: 'creatives', sortable: true },
   { name: 'booking_date', align: 'left', label: 'Забронированные даты', field: 'booking_date' },
-  { name: 'actions', align: 'left', label: 'Действия', field: 'path_check' }
+  { name: 'path_check', align: 'left', label: 'Чек', field: 'path_check' },
+  { name: 'creatives', align: 'left', label: 'Посты пользователя', field: 'creatives' }
   // { name: 'username_recommendation', align: 'left', label: 'Юзернейм рекомендации', field: 'username_recommendation', sortable: true },
 ]
+
+async function handlerSendPosts (row: any) {
+  const idUser = row.row.idUser
+  const creativesArray = row.value.split('///')
+  creativesArray.shift()
+  const info = recommendationsInto.value.find((elem: any) => elem.idUser === idUser)
+  await sendAdminText(`__________${info.user.username}__________`)
+  for (const creative of creativesArray) {
+    if(creative.includes('*')) {
+      const [text, _] = creative.split('*')
+      const [fileId, fileType] = _.split('%')
+      if (fileType === 'photo') {
+        await sendAdminPhoto(text, fileId)
+      } else if (fileType === 'video') {
+        await sendAdminVideo(text, fileId)
+      } else if (fileType === 'animation') {
+        await sendAdminAnimation(text, fileId)
+      }   
+    } else {
+      await sendAdminText(creative)
+    }
+  }
+  await sendAdminText(`__________${info.user.username}__________`)
+}
+
+async function sendAdminText(text: string) {
+  await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${text}`)
+}
+
+async function sendAdminPhoto(text: string, photoId: string) {
+  await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto?chat_id=${chatId}&caption=${text}&photo=${photoId}`)
+}
+
+async function sendAdminVideo(text: string, videoId: string) {
+  await fetch(`https://api.telegram.org/bot${botToken}/sendVideo?chat_id=${chatId}&caption=${text}&video=${videoId}`)
+}
+
+async function sendAdminAnimation(text: string, animationId: string) {
+  await fetch(`https://api.telegram.org/bot${botToken}/sendAnimation?chat_id=${chatId}&caption=${text}&photo=${animationId}`)
+}
 
 function handlerOpenCheck(row: any) {
   checkImg.value = row.value
@@ -68,6 +118,11 @@ onMounted(async() => {
 </script>
 
 <style scoped>
+/* .actions {
+  display: flex;
+  column-gap: 8px;
+  margin: 8px 0;
+} */
 .popup-check {
   display: flex;
   position: fixed;
