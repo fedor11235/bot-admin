@@ -88,19 +88,19 @@ async function handlerSendPosts (row: any) {
 }
 
 async function sendAdminText(text: string) {
-  await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${text}`)
+  await fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${text}&parse_mode=HTML`)
 }
 
 async function sendAdminPhoto(text: string, photoId: string) {
-  await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto?chat_id=${chatId}&caption=${text}&photo=${photoId}`)
+  await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto?chat_id=${chatId}&caption=${text}&parse_mode=HTML&photo=${photoId}`)
 }
 
 async function sendAdminVideo(text: string, videoId: string) {
-  await fetch(`https://api.telegram.org/bot${botToken}/sendVideo?chat_id=${chatId}&caption=${text}&video=${videoId}`)
+  await fetch(`https://api.telegram.org/bot${botToken}/sendVideo?chat_id=${chatId}&caption=${text}&parse_mode=HTML&video=${videoId}`)
 }
 
 async function sendAdminAnimation(text: string, animationId: string) {
-  await fetch(`https://api.telegram.org/bot${botToken}/sendAnimation?chat_id=${chatId}&caption=${text}&photo=${animationId}`)
+  await fetch(`https://api.telegram.org/bot${botToken}/sendAnimation?chat_id=${chatId}&caption=${text}&parse_mode=HTML&photo=${animationId}`)
 }
 
 function handlerOpenCheck(row: any) {
