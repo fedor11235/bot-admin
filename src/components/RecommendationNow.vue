@@ -52,6 +52,7 @@ const columns = [
     sortable: true
   },
   { name: 'username', align: 'left', label: 'Юзернейм', field: 'username', sortable: true },
+  { name: 'title', align: 'left', label: 'Название канала', field: 'title', sortable: true },
   { name: 'price_standart', align: 'left', label: 'Стандартная цена', field: 'price_standart', sortable: true },
   { name: 'price_now', align: 'left', label: 'Текущая цена', field: 'price_now' },
   { name: 'format', align: 'left', label: 'Формат', field: 'format' },

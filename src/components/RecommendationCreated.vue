@@ -7,6 +7,15 @@
     >
     <q-input
       filled
+      v-model="title"
+      label="Заголовок канала"
+      hint="Пожалуйста хоть что-то введите"
+      lazy-rules
+      :rules="[ val => val && val.length > 0 || 'Пожалуйста хоть что-то введите']"
+    ></q-input>
+
+    <q-input
+      filled
       v-model="name"
       label="Юзернейм канала"
       hint="Пожалуйста хоть что-то введите"
@@ -109,6 +118,7 @@ import { createRecommendation } from "@/api"
 import DatePick from'@/components/DatePick.vue'
 
 const name = ref("")
+const title = ref("")
 const priceStandart = ref("")
 const priceNow = ref("")
 const format = ref("")
@@ -126,6 +136,7 @@ async function onSubmit() {
   }
   createRecommendation({
     username: name.value,
+    title: title.value,
     price_standart: priceStandart.value,
     price_now: priceNow.value,
     format: format.value,
