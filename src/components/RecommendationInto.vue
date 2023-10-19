@@ -56,6 +56,7 @@ const columns = [
     sortable: true
   },
   { name: 'chanel', align: 'left', label: 'Юзернейм канала войденного в опт', field: 'chanel', sortable: true },
+  { name: 'username', align: 'left', label: 'username пользователя', field: 'username', sortable: true },
   // { name: 'creatives', align: 'left', label: 'Креативы', field: 'creatives', sortable: true },
   { name: 'booking_date', align: 'left', label: 'Забронированные даты', field: 'booking_date' },
   { name: 'path_check', align: 'left', label: 'Чек', field: 'path_check' },
@@ -160,7 +161,11 @@ function handlerReturn() {
 }
 
 onMounted(async() => {
-  recommendationsInto.value = await getRecommendationInto(props.username)
+  const recommendationsIntoResp = await getRecommendationInto(props.username) as any
+  recommendationsIntoResp.forEach((element: any) => {
+    element.username = '@' + element.user.username
+  });
+  recommendationsInto.value = recommendationsIntoResp
 })
 </script>
 
