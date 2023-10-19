@@ -11,8 +11,8 @@
 
 
 const baseURL = process.env.NODE_ENV === "production"
-  ? "https://slonrobot.ru/test/api/"
-  : "http://localhost:3002/test/"
+  ? "https://slonrobot.ru/api/"
+  : "http://localhost:3001/"
 
 // Создаём предложение
 export function createRecommendation(payload: any) {
