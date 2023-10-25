@@ -39,6 +39,19 @@ export function getRecommendation() {
   });
 }
 
+// Удаляем в боте
+export function recommendationDeleteBot(id: any) {
+  return new Promise((resolve, reject) => {
+    const url = baseURL + `recommendations/delete-bot?id=${id}`
+    const request = new XMLHttpRequest();
+    request.onload = () => {
+      resolve(JSON.parse(request.response))
+    }
+    request.open("GET", url, false);
+    request.send();
+  });
+}
+
 // Получаем опты
 export function getOpts() {
   return new Promise((resolve, reject) => {

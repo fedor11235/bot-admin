@@ -13,13 +13,18 @@
       :columns="(columns as any)"
       row-key="id"
     >
-      <template v-slot:body="props">
+      <template v-slot:body-selection="props">
         <q-tr :props="props" @click="handlerIntoRecommendation(props.row.username)">
           <q-checkbox v-model="props.selected"></q-checkbox>
           <q-td v-for="(value, index) in props.row" :key="index" :props="props">
             {{ value }}
           </q-td>
         </q-tr>
+      </template>
+      <template v-slot:body-cell-actions="props">
+        <q-td class="actions" :props="props">
+          <q-btn size="sm" rounded unelevated color="purple" @click="handlerDeleteInBot(props)" label="Удалить подборку в боте"></q-btn>
+        </q-td>       
       </template>
     </q-table>
     <RecommendationInto @return="mode = 'recommendation-all'" :username="usernameInto" v-else-if="mode === 'recommendation-into'" />
@@ -29,9 +34,11 @@
   </div>
 </template>
 
+<!-- handlerDeleteInBot() -->
+
 <script lang="ts" setup>
 import { ref, computed, onMounted } from "vue";
-import { getRecommendation, deleteRecommendation } from "@/api"
+import { getRecommendation, deleteRecommendation, recommendationDeleteBot } from "@/api"
 import RecommendationInto from '@/components/RecommendationInto.vue'
 
 const recommendations = ref([])
@@ -65,6 +72,7 @@ const columns = [
   { name: 'requisites', align: 'left', label: 'Ревизиты', field: 'requisites', sortable: true },
   { name: 'deadline', align: 'left', label: 'Дедлайн формирования поста', field: 'deadline', sortable: true },
   { name: 'info', align: 'left', label: 'Информация', field: 'info', sortable: true },
+  { name: 'actions', align: 'left', label: 'Удалить подборку в боте', field: 'id' }
 ]
 
 function getSelectedString () {
@@ -72,9 +80,12 @@ function getSelectedString () {
 }
 
 function handlerDelete () {
-  alert('Удалено!!!!!')
   deleteRecommendation(selectedId.value)
   recommendations.value = recommendations.value.filter((elem) => !selectedId.value.includes((elem as any).id))
+}
+
+function handlerDeleteInBot (prop: any) {
+  recommendationDeleteBot(prop.value)
 }
 
 async function handlerIntoRecommendation(username: any) {
