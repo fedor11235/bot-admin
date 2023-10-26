@@ -153,6 +153,7 @@ async function onSubmit() {
     format: format.value,
     number_posts: Number(numberPosts.value),
     data_list: dataList.value,
+    allowed_dates: dataList.value,
     requisites: requisites.value,
     deadline: deadline.value,
     info: info.value,
