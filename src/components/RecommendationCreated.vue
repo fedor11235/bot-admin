@@ -87,6 +87,10 @@
     ></q-input>
 
     <DatePick v-model="dataList" />
+    <br/>
+    <br/>
+    <br/>
+    <TimePick v-model="timeList" />
 
     <q-input
       filled
@@ -124,7 +128,8 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { createRecommendation } from "@/api"
-import DatePick from'@/components/DatePick.vue'
+import DatePick from'@/components/controlls/DatePick.vue'
+import TimePick from'@/components/controlls/TimePick.vue'
 
 const name = ref("")
 const title = ref("")
@@ -134,6 +139,7 @@ const priceNow = ref("")
 const format = ref("")
 const numberPosts = ref("")
 const dataList = ref("")
+const timeList = ref("")
 const requisites = ref("")
 const deadline = ref("")
 const info = ref("")
@@ -152,6 +158,7 @@ async function onSubmit() {
     price_now: priceNow.value,
     format: format.value,
     number_posts: Number(numberPosts.value),
+    placement_time: timeList.value,
     data_list: dataList.value,
     allowed_dates: dataList.value,
     requisites: requisites.value,

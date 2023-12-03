@@ -39,6 +39,31 @@ export function getRecommendation() {
   });
 }
 
+// Редактируем предложение
+export function editRecommendation(payload: any) {
+  const formData = new FormData()
+  for(const index in payload) {
+    formData.append(index, payload[index]);
+  }
+  const url = baseURL + 'recommendations/edit'
+  const request = new XMLHttpRequest();
+  request.open("POST", url, false);
+  request.send(formData);
+}
+
+// Получить всех пользователей
+export function getUserAll() {
+  return new Promise((resolve, reject) => {
+    const url = baseURL + `user/all`
+    const request = new XMLHttpRequest();
+    request.onload = () => {
+      resolve(JSON.parse(request.response))
+    }
+    request.open("GET", url, false);
+    request.send();
+  });
+}
+
 // Удаляем в боте
 export function recommendationDeleteBot(id: any) {
   return new Promise((resolve, reject) => {
@@ -100,4 +125,17 @@ export function deleteRecommendation(payload: any) {
   const request = new XMLHttpRequest();
   request.open("Delete", url, false);
   request.send(formData);
+}
+
+// Меняем разрешение на подписку
+export function changeSuggestions(idUser: string, isSuggestion: string) {
+  return new Promise((resolve, reject) => {
+    const url = baseURL + `user/suggestion?idUser=${idUser}&isSuggestion=${isSuggestion}`
+    const request = new XMLHttpRequest();
+    request.onload = () => {
+      resolve(JSON.parse(request.response))
+    }
+    request.open("GET", url, false);
+    request.send();
+  });
 }

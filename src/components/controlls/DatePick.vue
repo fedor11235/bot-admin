@@ -14,9 +14,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, toRef, computed } from "vue";
 
-defineProps<{
+const props = defineProps<{
   modelValue: string;
 }>();
 
@@ -33,7 +33,8 @@ const mapPeriod = {
   'вечер': 'evening'
 }
 const offsetDate = ref(0)
-const selectedDate = ref('')
+
+const selectedDate = toRef(props.modelValue)
 
 const dateList = computed(() => {
   const temp = []
@@ -44,10 +45,6 @@ const dateList = computed(() => {
   }
   return temp
 })
-
-// const colorBtn = computed(() => {
-//   selectedDate.value
-// })
 
 function colorBtn(date: string) {
   if (selectedDate.value) {

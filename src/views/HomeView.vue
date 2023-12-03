@@ -2,7 +2,7 @@
   <div id="q-app-home" style="min-height: 100vh;">
     <div class="q-pa-md">
       <q-toolbar class="bg-primary text-white shadow-2 rounded-borders">
-        <q-btn flat label="Админка"></q-btn>
+        <!-- <q-btn flat label="Админка"></q-btn> -->
         <q-space></q-space>
 
         <q-tabs v-model="menu" shrink>
@@ -10,6 +10,8 @@
           <q-tab name="recommendation-now" label="Текущие Предложения"></q-tab>
           <!-- <q-tab name="opt-now" label="Текущие Опты"></q-tab> -->
           <q-tab name="channel-create" label="Добавить канал в каталог"></q-tab>
+          <q-tab name="send-message" label="Отправить сообщение в бота"></q-tab>
+          <q-tab name="user-control" label="Управление пользователями"></q-tab>
           <!-- <q-tab name="info" label="Информация"></q-tab> -->
         </q-tabs>
       </q-toolbar>
@@ -18,6 +20,8 @@
     <RecommendationNow v-else-if="menu === 'recommendation-now'" />
     <!-- <OptNow v-else-if="menu === 'opt-now'" /> -->
     <ChannelCreated v-else-if="menu === 'channel-create'" />
+    <UserControl v-else-if="menu === 'user-control'" />
+    <SendMessage v-else-if="menu === 'send-message'" />
     <q-btn :onClick="onExit" unelevated class="exit" color="red" label="Выйти"></q-btn>
   </div>
 </template>
@@ -25,11 +29,13 @@
 <script lang="ts" setup>
 import { ref } from "vue"
 import { useRouter } from "vue-router";
-import OptNow from "@/components/OptNow.vue";
+// import OptNow from "@/components/OptNow.vue";
 import RecommendationCreated from "@/components/RecommendationCreated.vue";
 import RecommendationNow from "@/components/RecommendationNow.vue";
 import ChannelCreated from "@/components/ChannelCreated.vue";
-import OptInfo from "@/components/OptInfo.vue";
+// import OptInfo from "@/components/OptInfo.vue";
+import SendMessage from "@/components/SendMessage.vue";
+import UserControl from "@/components/UserControl.vue";
 
 const router = useRouter()
 

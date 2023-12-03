@@ -45,6 +45,5 @@ const columns = [
 
 onMounted(async() => {
   opts.value = await getOpts()
-  console.log(opts.value)
 })
 </script>
