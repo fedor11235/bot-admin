@@ -4,6 +4,13 @@
       <img class="img-check" :src="checkImg" alt="check" />
     </div>
   </transition>
+  <transition>
+    <EditDateModal
+      v-if="isEditDateModal"
+      :recomendationInto="editUserReqInto"
+      @close="isEditDateModal = false"
+    />
+  </transition>
   <q-btn :onClick="handlerReturn" unelevated color="blue" label="<- Вернуться в список предложений"></q-btn>
   <div class="q-pa-md">
     <q-table
@@ -14,16 +21,24 @@
       :columns="(columns as any)"
       row-key="name"
     >
+      <template v-slot:body-cell-check_mark="props">
+        <q-td class="actions" :props="props">
+          <q-checkbox :modelValue="props.row.check_mark" @update:modelValue="handlerCheckMark(props)"></q-checkbox>
+        </q-td>       
+      </template>
       <template v-slot:body-cell-path_check="props">
         <q-td class="actions" :props="props">
           <q-btn size="sm" rounded unelevated color="purple" @click="handlerOpenCheck(props)" label="Открыть чек"></q-btn>
-          <!-- <q-btn size="sm" rounded unelevated color="purple" @click="handlerSendPosts(props)" label="Отправить посты в админку"></q-btn> -->
         </q-td>       
       </template>
       <template v-slot:body-cell-creatives="props">
         <q-td class="actions" :props="props">
-          <!-- <q-btn size="sm" rounded unelevated color="purple" @click="handlerOpenCheck(props)" label="Открыть чек"></q-btn> -->
           <q-btn size="sm" rounded unelevated color="purple" @click="handlerSendPosts(props)" label="Отправить посты в админку"></q-btn>
+        </q-td>       
+      </template>
+      <template v-slot:body-cell-edit="props">
+        <q-td class="actions" :props="props">
+          <q-btn size="sm" rounded unelevated color="purple" @click="handlerEditDate(props)" label="Редактировать дату брони"></q-btn>
         </q-td>       
       </template>
     </q-table>
@@ -31,8 +46,9 @@
 </template>
 
 <script lang="ts" setup>
+import EditDateModal from '@/components/modal/EditDateModal.vue'
 import { ref, onMounted } from "vue";
-import { getRecommendationInto } from "@/api"
+import { getRecommendationInto, changeCheckMark } from "@/api"
 
 const emit = defineEmits(["return"]);
 
@@ -45,6 +61,8 @@ const botToken = '6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
 const recommendationsInto = ref()
 const checkImg = ref()
 const isPopupCheck = ref(false)
+const isEditDateModal = ref(false)
+const editUserReqInto = ref(null)
 
 const columns = [
   {
@@ -60,9 +78,16 @@ const columns = [
   // { name: 'creatives', align: 'left', label: 'Креативы', field: 'creatives', sortable: true },
   { name: 'booking_date', align: 'left', label: 'Забронированные даты', field: 'booking_date' },
   { name: 'path_check', align: 'left', label: 'Чек', field: 'path_check' },
-  { name: 'creatives', align: 'left', label: 'Посты пользователя', field: 'creatives' }
+  { name: 'creatives', align: 'left', label: 'Посты пользователя', field: 'creatives' },
+  { name: 'edit', align: 'left', label: 'Редактировать дату брони пользователя', field: 'edit' },
+  { name: 'check_mark', align: 'left', label: 'Отметить оплату пользователя', field: 'check-mark' }
   // { name: 'username_recommendation', align: 'left', label: 'Юзернейм рекомендации', field: 'username_recommendation', sortable: true },
 ]
+
+function handlerEditDate(props: any) {
+  isEditDateModal.value = true
+  editUserReqInto.value = props.row
+}
 
 async function handlerSendPosts (row: any) {
   const idUser = row.row.idUser
@@ -154,6 +179,14 @@ async function sendAdminAnimation(text: string, animationId: string) {
 function handlerOpenCheck(row: any) {
   checkImg.value = row.value
   isPopupCheck.value = true
+}
+
+function handlerCheckMark(props: any) {
+  // props.row.id, props.row.check_mark
+  props.row.check_mark = !props.row.check_mark
+  const checkMarkLocal = props.row.check_mark? 'enabled': 'disabled' 
+  changeCheckMark(props.row.id, checkMarkLocal)
+  // console.log('!')
 }
 
 function handlerReturn() {

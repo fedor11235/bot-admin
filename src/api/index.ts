@@ -139,3 +139,24 @@ export function changeSuggestions(idUser: string, isSuggestion: string) {
     request.send();
   });
 }
+
+
+// Меняет галку оплачиваемую
+export function changeCheckMark(idRecommendation: string, mark: string) {
+  const url = baseURL + `recommendations/mark?idRecommendation=${idRecommendation}&mark=${mark}`
+  const request = new XMLHttpRequest();
+  request.open("GET", url, false);
+  request.send();
+}
+
+// редактирование дат пользователя войленного в опт
+export function editDateUserRecommendationInto(payload: any) {
+  const formData = new FormData()
+  for(const index in payload) {
+    formData.append(index, payload[index]);
+  }
+  const url = baseURL + 'recommendations/edit-date'
+  const request = new XMLHttpRequest();
+  request.open("POST", url, false);
+  request.send(formData);
+}
