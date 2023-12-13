@@ -56,9 +56,10 @@ import { getRecommendation, deleteRecommendation, recommendationDeleteBot, getRe
 import RecommendationInto from '@/components/RecommendationInto.vue'
 import CheckModal from '@/components/modal/CheckModal.vue'
 import { sendMessage } from '@/helpers/send'
+import env from "@/env"
 
-const chatId = '-1001959790816'
-const botToken = '6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
+const chatId = env.ADMIN_ID
+const botToken = env.BOT_TOKEN
 
 const recommendations = ref([])
 const recommendation = ref()

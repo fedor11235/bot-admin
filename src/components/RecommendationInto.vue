@@ -49,6 +49,7 @@
 import EditDateModal from '@/components/modal/EditDateModal.vue'
 import { ref, onMounted } from "vue";
 import { getRecommendationInto, changeCheckMark } from "@/api"
+import env from "@/env"
 
 const emit = defineEmits(["return"]);
 
@@ -56,8 +57,8 @@ const props = defineProps<{
   username: string;
 }>();
 
-const chatId = '-1001959790816'
-const botToken = '6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
+const chatId = env.ADMIN_ID
+const botToken = env.BOT_TOKEN
 const recommendationsInto = ref()
 const checkImg = ref()
 const isPopupCheck = ref(false)

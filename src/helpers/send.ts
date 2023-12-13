@@ -1,7 +1,7 @@
-// тестовый бот
-// const botToken = '6127498929:AAEYlTDQQ2XsmFfRNtqIc8kpZUNLTzSrLB8'
-// бот прода
-const botToken = '6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
+import env from "@/env"
+
+// const chatId = env.ADMIN_ID
+const botToken = env.BOT_TOKEN
 
 export async function sendMessage(chatId: string, text: string) {
   const data = {

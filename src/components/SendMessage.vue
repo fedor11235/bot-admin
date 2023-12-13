@@ -10,12 +10,9 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { getUserAll } from '@/api'
+import env from "@/env"
 
-// тестовый бот
-// const botToken = '6127498929:AAEYlTDQQ2XsmFfRNtqIc8kpZUNLTzSrLB8'
-// бот прода
-const botToken = '6569483795:AAGXGV2Awd_fVhgy_20sjDpdfGJMaf6Ex6w'
-// const chatId = '6127498929'
+const botToken = env.BOT_TOKEN
 const message = ref('')
 const users = ref([])
 
