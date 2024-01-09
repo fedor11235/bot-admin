@@ -78,6 +78,7 @@ const columns = [
   { name: 'username', align: 'left', label: 'username пользователя', field: 'username', sortable: true },
   // { name: 'creatives', align: 'left', label: 'Креативы', field: 'creatives', sortable: true },
   { name: 'booking_date', align: 'left', label: 'Забронированные даты', field: 'booking_date' },
+  { name: 'booking_time', align: 'left', label: 'Забронированное время', field: 'booking_time' },
   { name: 'path_check', align: 'left', label: 'Чек', field: 'path_check' },
   { name: 'creatives', align: 'left', label: 'Посты пользователя', field: 'creatives' },
   { name: 'edit', align: 'left', label: 'Редактировать дату брони пользователя', field: 'edit' },

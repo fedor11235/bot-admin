@@ -93,6 +93,7 @@ const columns = [
   { name: 'coverage', align: 'left', label: 'Охват', field: 'coverage', sortable: true },
   { name: 'subscribers', align: 'left', label: 'Число подписчиков', field: 'subscribers', sortable: true },
   { name: 'data_list', align: 'left', label: 'Даты брони', field: 'data_list', sortable: true},
+  { name: 'placement_time', align: 'left', label: 'Время брони', field: 'placement_time' },
   { name: 'requisites', align: 'left', label: 'Ревизиты', field: 'requisites', sortable: true },
   { name: 'deadline', align: 'left', label: 'Дедлайн формирования поста', field: 'deadline', sortable: true },
   { name: 'info', align: 'left', label: 'Информация', field: 'info', sortable: true },
@@ -126,9 +127,21 @@ async function handlerSendDateBot(row: any) {
   let text = ''
   const recomendationsInto: any = await getRecommendationInto(row.username)
   for(const rec of recomendationsInto) {
-    text += `${(rec as any).booking_date} ${(rec as any).user.username}\n`
+    text += parseDate(rec.booking_date, rec.booking_time, rec.user.username)
   }
   sendAdminText(text)
+}
+
+function parseDate(bookingDate: string, bookingTime: string, username: string) {
+  const dateArr = bookingDate.split('_')
+  const timeArr = bookingTime.split('_')
+
+  const dateStr = dateArr.map(date => date.split('/')[1]).join(' ')
+  const timeStr = timeArr.join(' ')
+
+  const result = `${dateStr} @${username} ${timeStr}\n`
+
+  return result;
 }
 
 async function handlerSendReminder(row: any) {
