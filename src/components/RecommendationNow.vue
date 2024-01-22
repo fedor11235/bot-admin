@@ -132,11 +132,24 @@ async function handlerSendDateBot(row: any) {
   sendAdminText(text)
 }
 
+function sortBookingDate(bookingDate: any) {
+  const dates = bookingDate.split('_').map((date: any) => date.split('/')[1]);
+  dates.sort((a: any, b: any) => {
+    const aDay = a.split('.');
+    const bDay = b.split('.');
+    return aDay[0] - bDay[0];
+  }).sort((a: any, b: any) => {
+    const aMonth = a.split('.');
+    const bMonth = b.split('.');
+    return aMonth[1] - bMonth[1];
+  });
+  return dates.join(' ');
+}
+
 function parseDate(bookingDate: string, bookingTime: string, username: string) {
-  const dateArr = bookingDate.split('_')
   const timeArr = bookingTime.split('_')
 
-  const dateStr = dateArr.map(date => date.split('/')[1]).join(' ')
+  const dateStr =  sortBookingDate(bookingDate)
   const timeStr = timeArr.join(' ')
 
   const result = `${dateStr} @${username} ${timeStr}\n`
