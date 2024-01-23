@@ -1,15 +1,23 @@
-function sortBookingDate(bookingDate) {
-  const dates = bookingDate.split('_').map(date => date.split('/')[1]);
-  dates.sort((a, b) => {
-    const aDay = a.split('.');
-    const bDay = b.split('.');
-    return aDay[0] - bDay[0];
-  }).sort((a, b) => {
-    const aMonth = a.split('.');
-    const bMonth = b.split('.');
-    return aMonth[1] - bMonth[1];
-  });
-  return dates;
-}
+// тут принимаем данные с БД
 
-// console.log(sortBookingDate("morning/10.4_evening/12.2_morning/9.3"));
+// booking_date = ...
+// username =
+data = []; // результирующий массив
+
+// дальше обработка
+dates = booking_date.split("_").map((x) => {return x.split("/")[1]}) // тут работаем с букинг дэйт стандартно
+for (const date of dates) {  // дальше бежим по датам
+  element = [date, username]
+  data.push(element)  // добавлем в массив эти даты и юзернейм
+}
+data.sort((a, b) => {
+  aDay = a[0].split(".")[0];
+  bDay = b[0].split(".")[0];
+  return aDay - bDay;
+}).sort((a, b) => {
+  aMonth = a[0].split(".")[1];
+  bMonth = b[0].split(".")[1];
+  return aMonth - bMonth;
+})
+
+// алгоритм выше нужно обернуть в цикл по данным с бд
