@@ -68,6 +68,14 @@ const mode = ref('recommendation-all')
 const usernameInto = ref('')
 const selected = ref([])
 const isOpen = ref(false)
+const mapDay: any = {
+  morning: 'утро',
+  day: 'день',
+  evening: 'вечер',
+  ' morning': 'утро',
+  ' day': 'день',
+  ' evening': 'вечер',
+}
 
 const selectedId = computed(() => {
   return selected.value.map((e: any) => e.id)
@@ -124,35 +132,38 @@ function handlerEdit (prop: any) {
 }
 
 async function handlerSendDateBot(row: any) {
-  let text = ''
+  const data = [];
   const recomendationsInto: any = await getRecommendationInto(row.username)
   for(const rec of recomendationsInto) {
-    text += parseDate(rec.booking_date, rec.booking_time, rec.user.username)
+    const bookingDate = rec.booking_date.split("_").map((x: any) => {return x.split("/")})
+    const bookingTime = rec.booking_time.split('_').join(' ')
+    for (const date of bookingDate) {
+      data.push([
+        `${date[1]} (${mapDay[date[0]]})`,
+        `@${rec.user.username}`,
+        bookingTime,
+      ])
+    }
   }
+  const text = parseDate(data)
   sendAdminText(text)
 }
 
-function sortBookingDate(bookingDate: any) {
-  const dates = bookingDate.split('_').map((date: any) => date.split('/')[1]);
-  dates.sort((a: any, b: any) => {
-    const aDay = a.split('.');
-    const bDay = b.split('.');
-    return aDay[0] - bDay[0];
+function parseDate(data: any) {
+  let result = ''
+  const datesSort = data.sort((a: any, b: any) => {
+    const aDay = a[0].split(".")[0];
+    const bDay = b[0].split(".")[0];
+    return aDay - bDay;
   }).sort((a: any, b: any) => {
-    const aMonth = a.split('.');
-    const bMonth = b.split('.');
-    return aMonth[1] - bMonth[1];
-  });
-  return dates.join(' ');
-}
+    const aMonth = a[0].split(".")[1];
+    const bMonth = b[0].split(".")[1];
+    return aMonth - bMonth;
+  })
 
-function parseDate(bookingDate: string, bookingTime: string, username: string) {
-  const timeArr = bookingTime.split('_')
-
-  const dateStr =  sortBookingDate(bookingDate)
-  const timeStr = timeArr.join(' ')
-
-  const result = `${dateStr} @${username} ${timeStr}\n`
+  for (const date of datesSort) {
+    result += date.join(' ') + '\n'
+  }
 
   return result;
 }
