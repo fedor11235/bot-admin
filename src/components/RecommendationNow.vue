@@ -133,6 +133,7 @@ function handlerEdit (prop: any) {
 
 async function handlerSendDateBot(row: any) {
   const data = [];
+  console.log(row.title)
   const recomendationsInto: any = await getRecommendationInto(row.username)
   for(const rec of recomendationsInto) {
     const bookingDate = rec.booking_date.split("_").map((x: any) => {return x.split("/")})
@@ -145,12 +146,12 @@ async function handlerSendDateBot(row: any) {
       ])
     }
   }
-  const text = parseDate(data)
+  const text = parseDate(data, row.title)
   sendAdminText(text)
 }
 
-function parseDate(data: any) {
-  let result = ''
+function parseDate(data: any, title: string) {
+  let result = `__________${title}_________\n`
   const datesSort = data.sort((a: any, b: any) => {
     const aDay = a[0].split(".")[0];
     const bDay = b[0].split(".")[0];
@@ -164,6 +165,7 @@ function parseDate(data: any) {
   for (const date of datesSort) {
     result += date.join(' ') + '\n'
   }
+  result += `__________${title}_________\n`
 
   return result;
 }
